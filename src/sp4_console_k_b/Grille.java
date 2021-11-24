@@ -28,6 +28,8 @@ public class Grille {
         }*/
     }
 
+    
+
     //mettre de la couleur sur grille
     public class ConsoleColors {
 
@@ -39,17 +41,31 @@ public class Grille {
 
     //ajoute le jeton dans la colonne ciblée, sur
     //la cellule vide la plus basse. Renvoie faux si la colonne était pleine.
-    public boolean ajouterJetonDansColonne(Jeton unjeton, int column) {
+    public int ajouterJetonDansColonne(Jeton unjeton, int column) {
+        //on récupère un jeton dans la liste des jetons du joueurcourant
+        //Jeton un_jeton = joueurCourant.
+        
         if (colonneRemplie(column) == false) {
             for (int line = 0; line < 6; line++) {
                 if (CellulesJeu[line][column].jetonCourant == null) {
-                    CellulesJeu[line][column].affecterJeton(unjeton); //on remplie la cellule vide la plus basse
-                    return true;
+                    if (CellulesJeu[line][column].presenceDesintegrateur() == true) {
+                        CellulesJeu[line][column].affecterJeton(unjeton);
+                        return line;
+                    }
+                    else{
+                        CellulesJeu[line][column].affecterJeton(unjeton); //on remplie la cellule vide la plus basse
+                        return -1;
+                    }
+                            
                 }
             }
         }
-        return false; //la colonne est remplie
+        
+        return -1;// return false; //la colonne est remplie
     }
+
+
+    
 
     //renvoie vrai si la grille est pleine
     public boolean etreremplie() {
@@ -217,6 +233,7 @@ public class Grille {
         if (CellulesJeu[line][column].desintegrateur == false) {
             if (CellulesJeu[line][column].trouNoir == false){
                 CellulesJeu[line][column].desintegrateur = true;
+            
                 //System.out.println("Désintégrateur placé");
                 return true;
             }
@@ -224,7 +241,7 @@ public class Grille {
                 return false;
             }
         }
-        System.out.println("Désintégrateur déjà présent");
+        //System.out.println("Désintégrateur déjà présent");
         return false;
     }
 
