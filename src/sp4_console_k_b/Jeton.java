@@ -25,4 +25,12 @@ public class Jeton {
         return Couleur;
     }
     
+    @Override
+    public String toString(){
+        if ("Rouge".equals(Couleur))
+            return "\033[0;31m 0 "; //rouge
+        return "\033[0;33m 0 ";
+    }
+    
+    
 }

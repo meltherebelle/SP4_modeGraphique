@@ -171,8 +171,16 @@ public class Partie {
         }
     }
     
+    
+    
+    
+    
+    
+    
     // Méthode : Lancement de la partie
     public void debuterPartie() {
+        System.out.println("Vous entrez dans le jeu Super Puissance 4 !");
+
         initialiserPartie(); //création du plateau
         Menu();
         //Boucle d'une partie (à chaque tour un joueur joue, puis l’autre, et on recommence ainsi tant qu’il n’y a pas de joueur gagnant ou que la grille n’est pas remplie)
