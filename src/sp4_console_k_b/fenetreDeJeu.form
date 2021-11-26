@@ -103,7 +103,7 @@
         </Component>
         <Component class="javax.swing.JButton" name="btn_start">
           <Properties>
-            <Property name="text" type="java.lang.String" value="D&#xe9;marer partie"/>
+            <Property name="text" type="java.lang.String" value="D&#xe9;marrer partie"/>
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btn_startActionPerformed"/>
@@ -377,7 +377,7 @@
 
           <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
           <SubComponents>
-            <Component class="javax.swing.JTextArea" name="message">
+            <Component class="javax.swing.JTextArea" name="textemessage">
               <Properties>
                 <Property name="columns" type="int" value="20"/>
                 <Property name="rows" type="int" value="5"/>

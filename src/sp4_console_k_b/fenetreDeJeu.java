@@ -70,7 +70,7 @@ public class fenetreDeJeu extends javax.swing.JFrame {
         jLabel15 = new javax.swing.JLabel();
         lbl_jcourant = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        message = new javax.swing.JTextArea();
+        textemessage = new javax.swing.JTextArea();
         btn_col_0 = new javax.swing.JButton();
         btn_col_6 = new javax.swing.JButton();
         btn_col_1 = new javax.swing.JButton();
@@ -109,7 +109,7 @@ public class fenetreDeJeu extends javax.swing.JFrame {
         });
         panneau_creation_partie.add(nom_joueur_1, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 10, 130, -1));
 
-        btn_start.setText("Démarer partie");
+        btn_start.setText("Démarrer partie");
         btn_start.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btn_startActionPerformed(evt);
@@ -192,9 +192,9 @@ public class fenetreDeJeu extends javax.swing.JFrame {
         lbl_jcourant.setText("nom J courant");
         panneau_info_partie.add(lbl_jcourant, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 30, 130, 20));
 
-        message.setColumns(20);
-        message.setRows(5);
-        jScrollPane1.setViewportView(message);
+        textemessage.setColumns(20);
+        textemessage.setRows(5);
+        jScrollPane1.setViewportView(textemessage);
 
         panneau_info_partie.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 60, 280, 30));
 
@@ -272,7 +272,9 @@ public class fenetreDeJeu extends javax.swing.JFrame {
     }//GEN-LAST:event_nom_joueur_2ActionPerformed
 
     private void btn_col_2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_col_2ActionPerformed
-        // TODO add your handling code here:
+        jouerDansColonne(2);
+        if (grilleJeu.colonneRemplie(2)==true) btn_col_2.setEnabled(false);
+        JoueurSuivant();
     }//GEN-LAST:event_btn_col_2ActionPerformed
 
     private void nom_joueur_1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nom_joueur_1ActionPerformed
@@ -282,43 +284,68 @@ public class fenetreDeJeu extends javax.swing.JFrame {
     private void btn_col_0ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_col_0ActionPerformed
         // TODO add your handling code here:
         jouerDansColonne(0);
+        if (grilleJeu.colonneRemplie(0)==true) btn_col_0.setEnabled(false);
         JoueurSuivant();
     }//GEN-LAST:event_btn_col_0ActionPerformed
 
     private void btn_col_1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_col_1ActionPerformed
         // TODO add your handling code here:
         jouerDansColonne(1);
+        if (grilleJeu.colonneRemplie(1)==true) btn_col_1.setEnabled(false);
         JoueurSuivant();
     }//GEN-LAST:event_btn_col_1ActionPerformed
 
     private void btn_col_3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_col_3ActionPerformed
         // TODO add your handling code here:
-        jouerDansColonne(2);
+        jouerDansColonne(3);
+        if (grilleJeu.colonneRemplie(3)==true) btn_col_3.setEnabled(false);
         JoueurSuivant();
     }//GEN-LAST:event_btn_col_3ActionPerformed
 
     private void btn_col_4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_col_4ActionPerformed
         // TODO add your handling code here:
-        jouerDansColonne(3);
+        jouerDansColonne(4);
+        if (grilleJeu.colonneRemplie(4)==true) btn_col_4.setEnabled(false);
         JoueurSuivant();
     }//GEN-LAST:event_btn_col_4ActionPerformed
 
     private void btn_col_5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_col_5ActionPerformed
         // TODO add your handling code here:
-        jouerDansColonne(4);
+        jouerDansColonne(5);
+        if (grilleJeu.colonneRemplie(5)==true) btn_col_5.setEnabled(false);
         JoueurSuivant();
     }//GEN-LAST:event_btn_col_5ActionPerformed
 
     private void btn_col_6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_col_6ActionPerformed
         // TODO add your handling code here:
-        jouerDansColonne(5);
+        jouerDansColonne(6);
+        if (grilleJeu.colonneRemplie(6)==true) btn_col_6.setEnabled(false);
         JoueurSuivant();
     }//GEN-LAST:event_btn_col_6ActionPerformed
 
     public boolean jouerDansColonne(int indice_col) {
-
-        return true;
-    }
+        
+        boolean resultatAction;
+        
+        resultatAction=grilleJeu.ajouterJetonDansColonne(joueurCourant,indice_col);
+        panneau_grille.repaint();
+        lbl_j1_desint.setText(ListeJoueurs[0].nombreDesintegrateurs+"");
+        lbl_j2_desint.setText(ListeJoueurs[1].nombreDesintegrateurs+"");
+        
+        boolean vict_j1 =grilleJeu.etreGagnantePourJoueur(ListeJoueurs[0]);
+         boolean vict_j2 =grilleJeu.etreGagnantePourJoueur(ListeJoueurs[1]);
+         
+         if(vict_j1 && ! vict_j2) textemessage.setText("Victoire de   "+ ListeJoueurs[0].Nom );
+         if(vict_j2 && ! vict_j1) textemessage.setText("Victoire de   "+ ListeJoueurs[1].Nom );
+         
+         if (vict_j1 &&  vict_j2){
+             if(joueurCourant==ListeJoueurs[0]) textemessage.setText("Victoire de   "+ListeJoueurs[1].Nom + "faute de jeu de l'autre joueur");
+             else textemessage.setText("Victoire de    "+ListeJoueurs[0].Nom + "faute de jeu de l'autre joueur");
+         }
+        if (resultatAction==true) return true;
+        else return false;
+        
+    } 
     
     public void JoueurSuivant() {
         if (joueurCourant == ListeJoueurs[0]) {
@@ -485,12 +512,12 @@ public class fenetreDeJeu extends javax.swing.JFrame {
     private javax.swing.JLabel lbl_j2_desint;
     private javax.swing.JLabel lbl_j2_nom;
     private javax.swing.JLabel lbl_jcourant;
-    private javax.swing.JTextArea message;
     private javax.swing.JTextField nom_joueur_1;
     private javax.swing.JTextField nom_joueur_2;
     private javax.swing.JPanel panneau_creation_partie;
     private javax.swing.JPanel panneau_grille;
     private javax.swing.JPanel panneau_info_joueur;
     private javax.swing.JPanel panneau_info_partie;
+    private javax.swing.JTextArea textemessage;
     // End of variables declaration//GEN-END:variables
 }

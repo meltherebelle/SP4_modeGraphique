@@ -1,3 +1,4 @@
+
 package sp4_console_k_b;
 import java.util.Random;
 
@@ -24,38 +25,9 @@ public class Partie {
     //création grilleJeu : désigne la grille de jeu - sans doute l’objet le plus important de ce projet.
     //Tout y est fait : ajout de jetons, et vérification de la grille
     Grille grilleJeu = new Grille();
-        
     
-    // Méthode : attribution aléatoire des couleurs aux joueurs
-    public void attribuerCouleursAuxJoueurs() {
-        //creation tableau contenant les deux couleurs
-        String uneCouleur[] = new String[2];
-        uneCouleur[0] = "Jaune";
-        uneCouleur[1] = "Rouge";
-        //Tirage aléatoire d'une couleur de jeton
-        Random rand = new Random();
-        int i = rand.nextInt(2);
-        ListeJoueurs[0].Couleur = uneCouleur[i]; //on attribue cette 1ere couleur aléatoire au joueur1
-        int a;
-        if (i == 0) {
-            a = 1;
-        }
-        else {
-            a = 0;
-        }
-        ListeJoueurs[1].Couleur = uneCouleur[a]; //on attribu l'autre couleur au joueur2
-    }
-
-    // Méthode : changer de joueur - tour du suivant
-    public void JoueurSuivant() {
-        if (joueurCourant == ListeJoueurs[1]){
-            joueurCourant = ListeJoueurs[0];
-        }
-        else {
-            joueurCourant = ListeJoueurs[1];
-        }
-    }
-    
+    //je veux céer un nouvel objet permettant d'appeller la méthode recuperer desintegrateur dans la classe Cellule
+    Cellule celluleJeu= new Cellule();
     
     // Méthode : créé la grille, créé les jetons et les attribue aux joueurs correspondants
     //Place les trous noirs (version 2) et les téléporteurs (version 3)
@@ -75,8 +47,8 @@ public class Partie {
         
         //attribution des couleurs aux joueurs
         attribuerCouleursAuxJoueurs();
-        //System.out.println(joueur1+" possède les jetons de couleur "+joueur1.Couleur);
-        //System.out.println(joueur2+" possède les jetons de couleur "+joueur2.Couleur);
+        System.out.println(joueur1.Nom+" possède les jetons de couleur "+joueur1.Couleur);
+        System.out.println(joueur2.Nom+" possède les jetons de couleur "+joueur2.Couleur);
        
         //creation des jetons & attribution des jetons correpondants aux joueurs
         for (int i = 0; i < 20; i++) {
@@ -126,28 +98,63 @@ public class Partie {
         
         }     
         
-        
-        
         grilleJeu.afficherGrilleSurConsole(); //affichage grille sur console
         System.out.println("La partie va commencer !\nVous pouvez placer un jeton. ");
     }
+  
+    // Méthode : attribution aléatoire des couleurs aux joueurs
+    public void attribuerCouleursAuxJoueurs() {
+        //creation tableau contenant les deux couleurs
+        String uneCouleur[] = new String[2];
+        uneCouleur[0] = "Jaune";
+        uneCouleur[1] = "Rouge";
+        //Tirage aléatoire d'une couleur de jeton
+        Random rand = new Random();
+        int i = rand.nextInt(2);
+        ListeJoueurs[0].Couleur = uneCouleur[i]; //on attribue cette 1ere couleur aléatoire au joueur1
+        int a;
+        if (i == 0) {
+            a = 1;
+        }
+        else {
+            a = 0;
+        }
+        ListeJoueurs[1].Couleur = uneCouleur[a]; //on attribu l'autre couleur au joueur2
+    }
+
+    // Méthode : changer de joueur - tour du suivant
+    public void JoueurSuivant() {
+        if (joueurCourant == ListeJoueurs[1]){
+            joueurCourant = ListeJoueurs[0];
+        }
+        else {
+            joueurCourant = ListeJoueurs[1];
+        }
+    }
+    
+    
+    // Méthode : créé la grille, créé les jetons et les attribue aux joueurs correspondants
+    //Place les trous noirs (version 2) et les téléporteurs (version 3)
+     
 
     public void jouerJeton() {
-        //Choix colonne
         int ChoixCol = 0; //initilisation variable choix de colonne entrée par joueur
         Scanner sc = new Scanner(System.in); //joueur entre la colonne voulue
+        boolean resultatAction;
         System.out.println("Entrez une colonne où vous voulez placer votre jeton. ");
         ChoixCol = sc.nextInt() -1; //on retire 1 au choix de la colonne car l'indice column du tableau est de 0 à 6 (or le joueur pense que les colonnes sont de 1 à 7)
-        if (grilleJeu.colonneRemplie(ChoixCol) == true) {
-            //La colonne est déjà remplie
+        resultatAction=grilleJeu.ajouterJetonDansColonne(joueurCourant, ChoixCol);
+        if (grilleJeu.colonneRemplie(ChoixCol) == true) {//La colonne est déjà remplie
             ChoixCol = sc.nextInt() -1; //on demande au joueur d'en choisir
             System.out.println("Colonne déjà remplie, choisissez une autre colonne");
         }
         else if (grilleJeu.colonneRemplie(ChoixCol) == false) {
-            Jeton jetonCourant = new Jeton(joueurCourant.Couleur);
-            grilleJeu.ajouterJetonDansColonne(jetonCourant, ChoixCol); //On ajoute le Jeton dans la colonne choisie sur la grille
-            System.out.println("Le jeton a bien été placé dans la colonne");
+            
+            if(resultatAction==true){
+                System.out.println("Le jeton a bien été placé dans la colonne");
+            }
         }
+        
         if (0 > ChoixCol && ChoixCol > 7) { //colonne entrée n'est pas valide
             System.out.println("Attention : entrez une colonne valide --- entre 1 et 7");
             ChoixCol = sc.nextInt() -1; //le joueur entre à nouveau une colonne
@@ -157,7 +164,7 @@ public class Partie {
     
     public void Menu() {
         Scanner sc = new Scanner(System.in);
-        System.out.println("Faites un choix :\n1) Placer un jeton \n2) Récuperer un jeton");
+        System.out.println("Faites un choix :\n1) Placer un jeton \n2) Récuperer un jeton  \n3) Utiliser un désintégrateur");
         int choixmenu = sc.nextInt();
         if (choixmenu == 1) {
             jouerJeton();
@@ -169,18 +176,20 @@ public class Partie {
             int c = sc.nextInt()-1;
             grilleJeu.recupererJeton(l,c); //Version 3.0
         }
+        if (choixmenu == 3) {
+            joueurCourant.utiliserDesintegrateur();
+            System.out.println("Entrez les coordonnées du jeton que vous voulez récupérer.\nLigne : ");
+            int l = sc.nextInt()-1;
+            System.out.println("Colonne : ");
+            int c = sc.nextInt()-1;
+            grilleJeu.recupererJeton(l,c); //Version 3.0
+        }
     }
-    
-    
-    
-    
-    
     
     
     // Méthode : Lancement de la partie
     public void debuterPartie() {
         System.out.println("Vous entrez dans le jeu Super Puissance 4 !");
-
         initialiserPartie(); //création du plateau
         Menu();
         //Boucle d'une partie (à chaque tour un joueur joue, puis l’autre, et on recommence ainsi tant qu’il n’y a pas de joueur gagnant ou que la grille n’est pas remplie)
@@ -205,5 +214,3 @@ public class Partie {
         }
     }
 }
-
-

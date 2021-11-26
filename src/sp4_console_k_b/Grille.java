@@ -41,7 +41,7 @@ public class Grille {
 
     //ajoute le jeton dans la colonne ciblée, sur
     //la cellule vide la plus basse. Renvoie faux si la colonne était pleine.
-    public int ajouterJetonDansColonne(Jeton unjeton, int column) {
+    public boolean ajouterJetonDansColonne(Joueur joueurCourant, int column) {
         //on récupère un jeton dans la liste des jetons du joueurcourant
         //Jeton un_jeton = joueurCourant.
         
@@ -49,19 +49,23 @@ public class Grille {
             for (int line = 0; line < 6; line++) {
                 if (CellulesJeu[line][column].jetonCourant == null) {
                     if (CellulesJeu[line][column].presenceDesintegrateur() == true) {
-                        CellulesJeu[line][column].affecterJeton(unjeton);
-                        return line;
+                        Jeton jetonCourant = new Jeton(joueurCourant.Couleur);
+                        CellulesJeu[line][column].affecterJeton(jetonCourant);
+                        joueurCourant.obtenirDesintegrateur();
+                        System.out.println(" obtenirDesintegrateur OK ");
+                        return true;
                     }
                     else{
-                        CellulesJeu[line][column].affecterJeton(unjeton); //on remplie la cellule vide la plus basse
-                        return -1;
+                        Jeton jetonCourant = new Jeton(joueurCourant.Couleur);
+                        CellulesJeu[line][column].affecterJeton(jetonCourant); //on remplie la cellule vide la plus basse
+                        return true;
                     }
                             
                 }
             }
         }
         
-        return -1;// return false; //la colonne est remplie
+        return false; //la colonne est remplie
     }
 
 
