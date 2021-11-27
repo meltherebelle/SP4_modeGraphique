@@ -29,27 +29,61 @@ public class fenetreDeJeu extends javax.swing.JFrame {
         for (int i = 5; i >= 0; i--) { //on ajoute en partant des lignes du haut
             for (int j = 0; j < 7; j++) {
                 CelluleGraphique cellGraph = new CelluleGraphique(grilleJeu.CellulesJeu[i][j]);
-                
-                    cellGraph.addActionListener(new java.awt.event.ActionListener() {
-                        public void actionPerformed(java.awt.event.ActionEvent evt) {
-                         
-                            Cellule c= cellGraph.CelluleAssocie;
-                            if(c.jetonCourant==null) return;
 
-                            if (c.jetonCourant.Couleur== joueurCourant.Couleur){
-                                textemessage.setText( "le joueur  " + joueurCourant.Nom + "   récupère un de ses jetons");
-                                //Cellule jrecup= c.recupererjeton(); //attention a l'appel de la classe 
-                                 //--> en fonction de l'emplacement de la méthode recupererJeton
-                                 // la méthode recupererjeton() se situe dans la classe cellule masi elle est inactive       
-                                        
-                            }
-                            else{
-                                textemessage.setText( "le joueur  "  + joueurCourant.Nom + "  veut désintégrer un jeton ");
+                cellGraph.addActionListener(new java.awt.event.ActionListener() {
+                    public void actionPerformed(java.awt.event.ActionEvent evt) {
 
-                            }
-                            
+                        Cellule c = cellGraph.CelluleAssocie;
+                        if (c.jetonCourant == null) {
+                            return;
                         }
-                    });
+
+                        if (c.jetonCourant.Couleur == joueurCourant.Couleur) {
+                            textemessage.setText("le joueur  " + joueurCourant.Nom + "   récupère un de ses jetons");
+                            //Cellule jrecup= c.recupererjeton(); //attention a l'appel de la classe 
+                            //--> en fonction de l'emplacement de la méthode recupererJeton
+                            // la méthode recupererjeton() se situe dans la classe cellule masi elle est inactive       
+                            Jeton jrecup = c.recupererJeton();
+                            joueurCourant.ajouterJeton(jrecup);
+                            JoueurSuivant();
+
+                        } else {
+                            if (joueurCourant.nombreDesintegrateurs > 0) {
+                                textemessage.setText("le joueur  " + joueurCourant.Nom + " désintégre un jeton");
+                                c.supprimerJeton();
+                                joueurCourant.utiliserDesintegrateur();
+                                JoueurSuivant();
+                            } else {
+                                return;
+                            }
+                        }
+                        grilleJeu.tasserGrille();
+                        panneau_grille.repaint();
+                        
+                        lbl_j1_desint.setText(ListeJoueurs[0].nombreDesintegrateurs + "");
+                        lbl_j2_desint.setText(ListeJoueurs[1].nombreDesintegrateurs + "");
+                        
+                        boolean vict_j1 = grilleJeu.etreGagnantePourJoueur(ListeJoueurs[0]);
+                        boolean vict_j2 = grilleJeu.etreGagnantePourJoueur(ListeJoueurs[1]);
+                        
+                        if (vict_j1 && !vict_j2) {
+                            textemessage.setText("Victoire de"+ ListeJoueurs[0].Nom);
+                        }
+                        if (vict_j2 && !vict_j1) {
+                            textemessage.setText("Victoire de"+ ListeJoueurs[1].Nom);
+                        }
+                        
+                        if (vict_j1 && vict_j2) {
+                            if (joueurCourant == ListeJoueurs[0]) {
+                                textemessage.setText("Victoire de "+ListeJoueurs[1].Nom+" (faute de jeu de l'autre joueur) :( ð");
+                            }
+                            else {
+                                textemessage.setText("Victoire de "+ListeJoueurs[0].Nom+" (faute de jeu de l'autre joueur) :( ð");
+                            }
+                        }
+                    }
+                });
+                
                 panneau_grille.add(cellGraph);
             }
         }
@@ -294,7 +328,9 @@ public class fenetreDeJeu extends javax.swing.JFrame {
 
     private void btn_col_2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_col_2ActionPerformed
         jouerDansColonne(2);
-        if (grilleJeu.colonneRemplie(2)==true) btn_col_2.setEnabled(false);
+        if (grilleJeu.colonneRemplie(2) == true) {
+            btn_col_2.setEnabled(false);
+        }
         JoueurSuivant();
     }//GEN-LAST:event_btn_col_2ActionPerformed
 
@@ -305,77 +341,100 @@ public class fenetreDeJeu extends javax.swing.JFrame {
     private void btn_col_0ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_col_0ActionPerformed
         // TODO add your handling code here:
         jouerDansColonne(0);
-        if (grilleJeu.colonneRemplie(0)==true) btn_col_0.setEnabled(false);
+        if (grilleJeu.colonneRemplie(0) == true) {
+            btn_col_0.setEnabled(false);
+        }
         JoueurSuivant();
     }//GEN-LAST:event_btn_col_0ActionPerformed
 
     private void btn_col_1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_col_1ActionPerformed
         // TODO add your handling code here:
         jouerDansColonne(1);
-        if (grilleJeu.colonneRemplie(1)==true) btn_col_1.setEnabled(false);
+        if (grilleJeu.colonneRemplie(1) == true) {
+            btn_col_1.setEnabled(false);
+        }
         JoueurSuivant();
     }//GEN-LAST:event_btn_col_1ActionPerformed
 
     private void btn_col_3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_col_3ActionPerformed
         // TODO add your handling code here:
         jouerDansColonne(3);
-        if (grilleJeu.colonneRemplie(3)==true) btn_col_3.setEnabled(false);
+        if (grilleJeu.colonneRemplie(3) == true) {
+            btn_col_3.setEnabled(false);
+        }
         JoueurSuivant();
     }//GEN-LAST:event_btn_col_3ActionPerformed
 
     private void btn_col_4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_col_4ActionPerformed
         // TODO add your handling code here:
         jouerDansColonne(4);
-        if (grilleJeu.colonneRemplie(4)==true) btn_col_4.setEnabled(false);
+        if (grilleJeu.colonneRemplie(4) == true) {
+            btn_col_4.setEnabled(false);
+        }
         JoueurSuivant();
     }//GEN-LAST:event_btn_col_4ActionPerformed
 
     private void btn_col_5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_col_5ActionPerformed
         // TODO add your handling code here:
         jouerDansColonne(5);
-        if (grilleJeu.colonneRemplie(5)==true) btn_col_5.setEnabled(false);
+        if (grilleJeu.colonneRemplie(5) == true) {
+            btn_col_5.setEnabled(false);
+        }
         JoueurSuivant();
     }//GEN-LAST:event_btn_col_5ActionPerformed
 
     private void btn_col_6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_col_6ActionPerformed
         // TODO add your handling code here:
         jouerDansColonne(6);
-        if (grilleJeu.colonneRemplie(6)==true) btn_col_6.setEnabled(false);
+        if (grilleJeu.colonneRemplie(6) == true) {
+            btn_col_6.setEnabled(false);
+        }
         JoueurSuivant();
     }//GEN-LAST:event_btn_col_6ActionPerformed
 
     public boolean jouerDansColonne(int indice_col) {
-        
+
         boolean resultatAction;
-        
-        resultatAction=grilleJeu.ajouterJetonDansColonne(joueurCourant,indice_col);
+
+        resultatAction = grilleJeu.ajouterJetonDansColonne(joueurCourant, indice_col);
         panneau_grille.repaint();
-        lbl_j1_desint.setText(ListeJoueurs[0].nombreDesintegrateurs+"");
-        lbl_j2_desint.setText(ListeJoueurs[1].nombreDesintegrateurs+"");
-        
-        boolean vict_j1 =grilleJeu.etreGagnantePourJoueur(ListeJoueurs[0]);
-         boolean vict_j2 =grilleJeu.etreGagnantePourJoueur(ListeJoueurs[1]);
-         
-         if(vict_j1 && ! vict_j2) textemessage.setText("Victoire de   "+ ListeJoueurs[0].Nom );
-         if(vict_j2 && ! vict_j1) textemessage.setText("Victoire de   "+ ListeJoueurs[1].Nom );
-         
-         if (vict_j1 &&  vict_j2){
-             if(joueurCourant==ListeJoueurs[0]) textemessage.setText("Victoire de   "+ListeJoueurs[1].Nom + "faute de jeu de l'autre joueur");
-             else textemessage.setText("Victoire de    "+ListeJoueurs[0].Nom + "faute de jeu de l'autre joueur");
-         }
-        if (resultatAction==true) return true;
-        else return false;
-        
-    } 
-    
+        lbl_j1_desint.setText(ListeJoueurs[0].nombreDesintegrateurs + "");
+        lbl_j2_desint.setText(ListeJoueurs[1].nombreDesintegrateurs + "");
+
+        boolean vict_j1 = grilleJeu.etreGagnantePourJoueur(ListeJoueurs[0]);
+        boolean vict_j2 = grilleJeu.etreGagnantePourJoueur(ListeJoueurs[1]);
+
+        if (vict_j1 && !vict_j2) {
+            textemessage.setText("Victoire de   " + ListeJoueurs[0].Nom);
+        }
+        if (vict_j2 && !vict_j1) {
+            textemessage.setText("Victoire de   " + ListeJoueurs[1].Nom);
+        }
+
+        if (vict_j1 && vict_j2) {
+            if (joueurCourant == ListeJoueurs[0]) {
+                textemessage.setText("Victoire de   " + ListeJoueurs[1].Nom + "faute de jeu de l'autre joueur");
+            } else {
+                textemessage.setText("Victoire de    " + ListeJoueurs[0].Nom + "faute de jeu de l'autre joueur");
+            }
+        }
+        if (resultatAction == true) {
+            return true;
+        } else {
+            return false;
+        }
+
+    }
+
     public void JoueurSuivant() {
         if (joueurCourant == ListeJoueurs[0]) {
             joueurCourant = ListeJoueurs[1];
+        } else {
+            joueurCourant = ListeJoueurs[0];
         }
-        else joueurCourant = ListeJoueurs[0];
         lbl_jcourant.setText(joueurCourant.Nom);
     }
-    
+
     /**
      * @param args the command line arguments
      */
@@ -410,32 +469,32 @@ public class fenetreDeJeu extends javax.swing.JFrame {
             }
         });
     }
-    
+
     public void initialiserPartie() {
-        
+
         //affectation des noms aux joueurs
-        String nomJoueur1 = nom_joueur_1.getText(); 
+        String nomJoueur1 = nom_joueur_1.getText();
         Joueur joueur1 = new Joueur(nomJoueur1);
-        
+
         String nomJoueur2 = nom_joueur_2.getText();
         Joueur joueur2 = new Joueur(nomJoueur2);
-        
+
         //affectations des joueurs 1 & 2 au tableau de joueurs
         ListeJoueurs[0] = joueur1;
         ListeJoueurs[1] = joueur2;
-        
+
         //attribution des couleurs aux joueurs
         attribuerCouleursAuxJoueurs();
-        System.out.println(joueur1.Nom+" possède les jetons de couleur "+joueur1.Couleur);
-        System.out.println(joueur2.Nom+" possède les jetons de couleur "+joueur2.Couleur);
-        
+        System.out.println(joueur1.Nom + " possède les jetons de couleur " + joueur1.Couleur);
+        System.out.println(joueur2.Nom + " possède les jetons de couleur " + joueur2.Couleur);
+
         lbl_j1_nom.setText(nomJoueur1);
         lbl_j2_nom.setText(nomJoueur2);
         lbl_j1_couleur.setText(joueur1.Couleur);
         lbl_j2_couleur.setText(joueur2.Couleur);
-        lbl_j1_desint.setText(joueur1.nombreDesintegrateurs+"");
-        lbl_j2_desint.setText(joueur2.nombreDesintegrateurs+"");
-       
+        lbl_j1_desint.setText(joueur1.nombreDesintegrateurs + "");
+        lbl_j2_desint.setText(joueur2.nombreDesintegrateurs + "");
+
         //creation des jetons & attribution des jetons correpondants aux joueurs
         for (int i = 0; i < 20; i++) {
             Jeton unJeton1 = new Jeton(joueur1.Couleur); //creation jetons joueur1
@@ -443,48 +502,46 @@ public class fenetreDeJeu extends javax.swing.JFrame {
             Jeton unJeton2 = new Jeton(joueur2.Couleur); //creation jetons joueur2
             joueur2.ajouterJeton(unJeton2);
         }
-        
+
         //Définition aléatoire du joueur qui commence à jouer
         Random rand = new Random(); // définition aléatoire du joueur qui commence à jouer
         boolean premier;
         premier = rand.nextBoolean(); //affectation aléatoire du premier joueur
-        if (premier == true){
+        if (premier == true) {
             System.out.println(joueur1.Nom + " commence à jouer. ");
             joueurCourant = joueur1; //affectation du joueur courant
-        }
-        else {
+        } else {
             System.out.println(joueur2.Nom + " commence à jouer. ");
             joueurCourant = joueur2; //affectation du joueur courant
         }
         lbl_jcourant.setText(joueurCourant.Nom);
-        
+
         //placement des trous noirs (v.2)(aléatoire)
-    
         Random obj = new Random();
-        for (int a=0; a<5 ; a ++){
-            int ligne=obj.nextInt(5);
-            int col=obj.nextInt(6);
-            grilleJeu.placerTrouNoir(ligne,col);
-            if (a==0 || a==1){
-                grilleJeu.placerDesintegrateur(ligne,col);
+        for (int a = 0; a < 5; a++) {
+            int ligne = obj.nextInt(5);
+            int col = obj.nextInt(6);
+            grilleJeu.placerTrouNoir(ligne, col);
+            if (a == 0 || a == 1) {
+                grilleJeu.placerDesintegrateur(ligne, col);
             }
         }
-        
+
         //placement des désintégrateurs (v.3)
         Random obj2 = new Random();
-        for (int a=0; a<3 ; a ++){
-            int ligne=obj2.nextInt(5);
-            int col=obj2.nextInt(6);
-            while(grilleJeu.placerDesintegrateur(ligne,col)==false){
-               ligne=obj2.nextInt(5);
-               col=obj2.nextInt(6);
+        for (int a = 0; a < 3; a++) {
+            int ligne = obj2.nextInt(5);
+            int col = obj2.nextInt(6);
+            while (grilleJeu.placerDesintegrateur(ligne, col) == false) {
+                ligne = obj2.nextInt(5);
+                col = obj2.nextInt(6);
             }
-            grilleJeu.placerDesintegrateur(ligne,col);
-        
-        }     
+            grilleJeu.placerDesintegrateur(ligne, col);
+
+        }
         //on supprime l'affichage de la grille sur console
     }
-    
+
     public void attribuerCouleursAuxJoueurs() {
         //creation tableau contenant les deux couleurs
         String uneCouleur[] = new String[2];
@@ -497,8 +554,7 @@ public class fenetreDeJeu extends javax.swing.JFrame {
         int a;
         if (i == 0) {
             a = 1;
-        }
-        else {
+        } else {
             a = 0;
         }
         ListeJoueurs[1].Couleur = uneCouleur[a]; //on attribu l'autre couleur au joueur2

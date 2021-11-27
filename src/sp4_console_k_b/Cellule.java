@@ -49,12 +49,9 @@ public class Cellule {
         }
     
     //renvoie une référence vers le jeton de la cellule
-    /*public Jeton recupererJeton(){
-        Jeton jetonRetour = jetonCourant; // variable pour jeton que l'on veut récupérer
-        jetonCourant = null; // on réintialise la cellule, maintenant vide puisque jeton récupéré
-        System.out.println("Jeton récupéré");
-        return jetonRetour ; // on renvoie le jeton récupéré
-    }*/
+    public Jeton recupererJeton(){
+        return jetonCourant; //on renvoie la réf du jeton récupéré
+    }
 
     //supprime le jeton et renvoie vrai si la suppression s’est bien
     //passée, ou faux autrement (ex : pas de jeton présent)

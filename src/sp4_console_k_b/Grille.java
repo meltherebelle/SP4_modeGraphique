@@ -204,7 +204,7 @@ public class Grille {
         
     //lorsqu’un jeton est capturé ou détruit, tasse la grille en
     //décalant de une ligne les jetons situés au dessus de la cellule libérée.
-    public void tasserGrille(int line, int column) {
+    /*public void tasserGrille(int line, int column) {
         // fais descendre de 1 ligne la colonne lorsque celle ci est impacté par l'activation d'un desintegrateur ou trou noir
         for (int i = line; i < 6; i++) {
             if (i == 5) {
@@ -215,6 +215,26 @@ public class Grille {
                 System.out.println("Grille tassée");
             }
         }
+    }*/
+    
+    void tasserColonne(int col) {
+        for (int i = 0 ; i<6 ; i ++) {
+            if (i == 5) {
+                CellulesJeu[i][col].jetonCourant = null;
+            }
+            else {
+                if (CellulesJeu[i][col].jetonCourant == null) {
+                    CellulesJeu[i][col].jetonCourant = CellulesJeu[i+1][col].jetonCourant;
+                    CellulesJeu[i+1][col].jetonCourant = null;
+                }
+            }
+        }
+    }
+    
+    void tasserGrille() {
+        for (int i=0 ; i < 7 ; i++) {
+            tasserColonne(i);
+        }  
     }
 
     //renvoie vrai si la colonne est remplie (on ne peut y jouer un Jeton)
@@ -286,7 +306,7 @@ public class Grille {
         Jeton JetonRecup = CellulesJeu[line][column].jetonCourant;
         CellulesJeu[line][column].jetonCourant = null; //on appel la méthode qui vide la cellule où le jeton a été récupéré
         System.out.println("Jeton récupéré");
-        tasserGrille(line,column); //une fois le jeton récupéré, on tasse la grille en faisant appel à la fonction prévue
+        tasserGrille(); //une fois le jeton récupéré, on tasse la grille en faisant appel à la fonction prévue
         return JetonRecup;
     }
 }
