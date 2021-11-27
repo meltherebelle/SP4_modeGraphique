@@ -78,7 +78,7 @@ public class Partie {
             
             int ligne=obj.nextInt(5);
             int col=obj.nextInt(6);
-            grilleJeu.placerTrouNoir(ligne,col);
+            
             if (a==0 || a==1){
                 grilleJeu.placerDesintegrateur(ligne,col);
             }

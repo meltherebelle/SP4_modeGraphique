@@ -29,6 +29,27 @@ public class fenetreDeJeu extends javax.swing.JFrame {
         for (int i = 5; i >= 0; i--) { //on ajoute en partant des lignes du haut
             for (int j = 0; j < 7; j++) {
                 CelluleGraphique cellGraph = new CelluleGraphique(grilleJeu.CellulesJeu[i][j]);
+                
+                    cellGraph.addActionListener(new java.awt.event.ActionListener() {
+                        public void actionPerformed(java.awt.event.ActionEvent evt) {
+                         
+                            Cellule c= cellGraph.CelluleAssocie;
+                            if(c.jetonCourant==null) return;
+
+                            if (c.jetonCourant.Couleur== joueurCourant.Couleur){
+                                textemessage.setText( "le joueur  " + joueurCourant.Nom + "   récupère un de ses jetons");
+                                //Cellule jrecup= c.recupererjeton(); //attention a l'appel de la classe 
+                                 //--> en fonction de l'emplacement de la méthode recupererJeton
+                                 // la méthode recupererjeton() se situe dans la classe cellule masi elle est inactive       
+                                        
+                            }
+                            else{
+                                textemessage.setText( "le joueur  "  + joueurCourant.Nom + "  veut désintégrer un jeton ");
+
+                            }
+                            
+                        }
+                    });
                 panneau_grille.add(cellGraph);
             }
         }

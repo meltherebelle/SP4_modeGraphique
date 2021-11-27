@@ -63,7 +63,7 @@ public class Grille {
                             
                 }
             }
-        }
+        }   
         
         return false; //la colonne est remplie
     }
