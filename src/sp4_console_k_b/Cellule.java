@@ -22,6 +22,10 @@ public class Cellule {
     }
     
     //enleve le jeton courant de la variable jetoncourant
+
+    /**
+     * test jav doc pour ennlever jeton
+     */
     public void enleverJeton() {
         jetonCourant = null;
         System.out.println("enleverJeton OK. ");
@@ -29,6 +33,12 @@ public class Cellule {
     
     //ajoute le jeton en paramètre à la cellule, et retourne vrai si
     //l’ajout s’est bien passé, sinon faux
+
+    /**
+     *
+     * @param unjeton 
+     * @return 
+     */
     public boolean affecterJeton(Jeton unjeton) {
        
         if (jetonCourant == null) {
@@ -50,6 +60,7 @@ public class Cellule {
     
     //renvoie une référence vers le jeton de la cellule
     public Jeton recupererJeton(){
+        
         return jetonCourant; //on renvoie la réf du jeton récupéré
     }
 

@@ -16,7 +16,7 @@ public class fenetreDeJeu extends javax.swing.JFrame {
     Joueur[] ListeJoueurs = new Joueur[2];
     Joueur joueurCourant;
     Grille grilleJeu = new Grille();
-
+    boolean finish=false;
     /**
      * Creates new form fenetreDeJeu
      */
@@ -46,6 +46,7 @@ public class fenetreDeJeu extends javax.swing.JFrame {
                             // la méthode recupererjeton() se situe dans la classe cellule masi elle est inactive       
                             Jeton jrecup = c.recupererJeton();
                             joueurCourant.ajouterJeton(jrecup);
+                            c.supprimerJeton();
                             JoueurSuivant();
 
                         } else {
@@ -71,11 +72,13 @@ public class fenetreDeJeu extends javax.swing.JFrame {
                             textemessage.setText("Victoire de"+ ListeJoueurs[0].Nom);
                             panneau_grille.setVisible(false);
                             lbl_gameover.setVisible(true);
+                            finish=true;
                         }
                         if (vict_j2 && !vict_j1) {
                             textemessage.setText("Victoire de"+ ListeJoueurs[1].Nom);
                             panneau_grille.setVisible(false);
                             lbl_gameover.setVisible(true);
+                            finish=true;
                         }
                         
                         if (vict_j1 && vict_j2) {
@@ -83,11 +86,13 @@ public class fenetreDeJeu extends javax.swing.JFrame {
                                 textemessage.setText("Victoire de " + ListeJoueurs[1].Nom + " (faute de jeu de l'autre joueur) :( ð");
                                 panneau_grille.setVisible(false);
                                 lbl_gameover.setVisible(true);
+                                finish=true;
                             }
                             else {
                                 textemessage.setText("Victoire de " + ListeJoueurs[0].Nom + " (faute de jeu de l'autre joueur) :( ð");
                                 panneau_grille.setVisible(false);
                                 lbl_gameover.setVisible(true);
+                                finish=true;
                                 
                             }
                             panneau_grille.repaint();
@@ -399,6 +404,9 @@ public class fenetreDeJeu extends javax.swing.JFrame {
 
     private void btn_col_2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_col_2ActionPerformed
         jouerDansColonne(2);
+        if(finish==true){
+            btn_col_2.setEnabled(false);
+        }
         if (grilleJeu.colonneRemplie(2) == true) {
             btn_col_2.setEnabled(false);
         }
@@ -412,6 +420,9 @@ public class fenetreDeJeu extends javax.swing.JFrame {
     private void btn_col_0ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_col_0ActionPerformed
         // TODO add your handling code here:
         jouerDansColonne(0);
+        if(finish==true){
+            btn_col_0.setEnabled(false);
+        }
         if (grilleJeu.colonneRemplie(0) == true) {
             btn_col_0.setEnabled(false);
         }
@@ -421,6 +432,9 @@ public class fenetreDeJeu extends javax.swing.JFrame {
     private void btn_col_1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_col_1ActionPerformed
         // TODO add your handling code here:
         jouerDansColonne(1);
+        if(finish==true){
+            btn_col_1.setEnabled(false);
+        }
         if (grilleJeu.colonneRemplie(1) == true) {
             btn_col_1.setEnabled(false);
         }
@@ -430,6 +444,9 @@ public class fenetreDeJeu extends javax.swing.JFrame {
     private void btn_col_3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_col_3ActionPerformed
         // TODO add your handling code here:
         jouerDansColonne(3);
+        if(finish==true){
+            btn_col_3.setEnabled(false);
+        }
         if (grilleJeu.colonneRemplie(3) == true) {
             btn_col_3.setEnabled(false);
         }
@@ -439,6 +456,9 @@ public class fenetreDeJeu extends javax.swing.JFrame {
     private void btn_col_4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_col_4ActionPerformed
         // TODO add your handling code here:
         jouerDansColonne(4);
+        if(finish==true){
+            btn_col_4.setEnabled(false);
+        }
         if (grilleJeu.colonneRemplie(4) == true) {
             btn_col_4.setEnabled(false);
         }
@@ -448,6 +468,9 @@ public class fenetreDeJeu extends javax.swing.JFrame {
     private void btn_col_5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_col_5ActionPerformed
         // TODO add your handling code here:
         jouerDansColonne(5);
+        if(finish==true){
+            btn_col_5.setEnabled(false);
+        }
         if (grilleJeu.colonneRemplie(5) == true) {
             btn_col_5.setEnabled(false);
         }
@@ -457,6 +480,9 @@ public class fenetreDeJeu extends javax.swing.JFrame {
     private void btn_col_6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_col_6ActionPerformed
         // TODO add your handling code here:
         jouerDansColonne(6);
+        if(finish==true){
+            btn_col_6.setEnabled(false);
+        }
         if (grilleJeu.colonneRemplie(6) == true) {
             btn_col_6.setEnabled(false);
         }
@@ -464,7 +490,7 @@ public class fenetreDeJeu extends javax.swing.JFrame {
     }//GEN-LAST:event_btn_col_6ActionPerformed
 
     public boolean jouerDansColonne(int indice_col) {
-
+        
         boolean resultatAction;
 
         resultatAction = grilleJeu.ajouterJetonDansColonne(joueurCourant, indice_col);
@@ -479,11 +505,13 @@ public class fenetreDeJeu extends javax.swing.JFrame {
             textemessage.setText("Victoire de " + ListeJoueurs[0].Nom);
             panneau_grille.setVisible(false);
             lbl_gameover.setVisible(true);
+            finish=true;
         }
         if (vict_j2 && !vict_j1) {
             textemessage.setText("Victoire de " + ListeJoueurs[1].Nom);
             panneau_grille.setVisible(false);
             lbl_gameover.setVisible(true);
+            finish=true;
         }
 
         if (vict_j1 && vict_j2) {
@@ -491,10 +519,12 @@ public class fenetreDeJeu extends javax.swing.JFrame {
                 textemessage.setText("Victoire de " + ListeJoueurs[1].Nom + " (faute de jeu de l'autre joueur)");
                 panneau_grille.setVisible(false);
                 lbl_gameover.setVisible(true);
+                finish=true;
             } else {
                 textemessage.setText("Victoire de " + ListeJoueurs[0].Nom + " (faute de jeu de l'autre joueur)");
                 panneau_grille.setVisible(false);
                 lbl_gameover.setVisible(true);
+                finish=true;
             }
         }
         if (resultatAction == true) {
@@ -600,7 +630,11 @@ public class fenetreDeJeu extends javax.swing.JFrame {
         for (int a = 0; a < 5; a++) {
             int ligne = obj.nextInt(5);
             int col = obj.nextInt(6);
-            grilleJeu.placerTrouNoir(ligne, col);
+            while (grilleJeu.placerTrouNoir(ligne,col)==false){
+                ligne=obj.nextInt(5);
+                col=obj.nextInt(6);
+            }
+            grilleJeu.placerTrouNoir(ligne,col);
             if (a == 0 || a == 1) {
                 grilleJeu.placerDesintegrateur(ligne, col);
             }

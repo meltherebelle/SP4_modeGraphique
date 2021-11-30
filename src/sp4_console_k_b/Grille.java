@@ -32,7 +32,7 @@ public class Grille {
 
     //mettre de la couleur sur grille
     public class ConsoleColors {
-
+       
         public static final String RED = "\033[0;31m";   // RED
         public static final String YELLOW = "\033[0;33m";  // YELLOW
         public static final String WHITE_BACKGROUND = "\033[47m";  // WHITE
@@ -44,7 +44,7 @@ public class Grille {
     public boolean ajouterJetonDansColonne(Joueur joueurCourant, int column) {
         //on récupère un jeton dans la liste des jetons du joueurcourant
         //Jeton un_jeton = joueurCourant.
-        
+      
         if (colonneRemplie(column) == false) {
             for (int line = 0; line < 6; line++) {
                 if (CellulesJeu[line][column].jetonCourant == null) {
